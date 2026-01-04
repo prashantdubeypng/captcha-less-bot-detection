@@ -5,7 +5,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-app.use(express.json({ limit: "5mb" }));
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: true }));
 
 const allowedOrigins = [
@@ -73,13 +73,15 @@ app.post("/collect", async (req, res) => {
         ];
 
         await sheets.spreadsheets.values.append({
-            spreadsheetId: process.env.GOOGLE_SHEET_ID,
-            range: "Sheet1!A1",
-            valueInputOption: "RAW",
-            requestBody: {
-                values: [row]
-            }
-        });
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: "Sheet1!A:H",            // ✅ column range
+    valueInputOption: "RAW",
+    insertDataOption: "INSERT_ROWS", // ✅ force new row
+    requestBody: {
+        values: [row]
+    }
+});
+
 
         res.status(200).json({ status: "ok" });
     } catch (err) {
