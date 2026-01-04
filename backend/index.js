@@ -29,7 +29,7 @@ app.use(cors({
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type"]
 }));
-
+app.options("/collect", cors());
 // ----------------------
 // Google Sheets Auth
 // ----------------------
